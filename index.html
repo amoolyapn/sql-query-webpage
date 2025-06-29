@@ -2,57 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SQL Query Practice</title>
+  <title>SQL Practice Web Page</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2>SQL Query Practice (Browser Only)</h2>
-    <textarea id="query" placeholder="Write your SQL SELECT query here..."></textarea><br>
+    <h1>🧠 SQL Query Practice</h1>
+    <p class="tagline">Practice SQL queries on sample data — all in your browser.</p>
+
+    <textarea id="query" placeholder="Enter your SELECT query here..."></textarea>
     <button onclick="runQuery()">Run Query</button>
     <div id="output"></div>
+
+    <footer>
+      <p>&copy; 2025 SQLPractice | Designed with ❤️</p>
+    </footer>
   </div>
 
   <script>
     let db;
 
-    // Sample data
     const initSql = `
-      CREATE TABLE employees (id INTEGER, name TEXT, salary INTEGER);
-      INSERT INTO employees VALUES (1, 'Alice', 50000);
-      INSERT INTO employees VALUES (2, 'Bob', 60000);
-      INSERT INTO employees VALUES (3, 'Charlie', 70000);
+      CREATE TABLE employees (id INTEGER, name TEXT, department TEXT, salary INTEGER);
+      INSERT INTO employees VALUES (1, 'Alice', 'HR', 50000);
+      INSERT INTO employees VALUES (2, 'Bob', 'Engineering', 75000);
+      INSERT INTO employees VALUES (3, 'Charlie', 'Sales', 60000);
+      INSERT INTO employees VALUES (4, 'David', 'Engineering', 80000);
+      INSERT INTO employees VALUES (5, 'Eva', 'Marketing', 55000);
     `;
 
-    // Initialize database
-    initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file}` }).then(SQL => {
+    initSqlJs({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file}`
+    }).then(SQL => {
       db = new SQL.Database();
       db.run(initSql);
     });
 
     function runQuery() {
-      const query = document.getElementById("query").value;
+      const query = document.getElementById("query").value.trim();
       const output = document.getElementById("output");
       output.innerHTML = "";
 
       try {
         if (!query.toLowerCase().startsWith("select")) {
-          throw new Error("Only SELECT queries allowed.");
+          throw new Error("Only SELECT queries are allowed.");
         }
 
         const res = db.exec(query);
         if (res.length === 0) {
-          output.innerHTML = "Query ran successfully (no output).";
+          output.innerHTML = "<div class='info'>Query executed successfully (no data returned).</div>";
           return;
         }
 
-        // Build HTML table
         const table = document.createElement("table");
         const thead = document.createElement("thead");
         const tbody = document.createElement("tbody");
 
-        // Headers
         const headerRow = document.createElement("tr");
         res[0].columns.forEach(col => {
           const th = document.createElement("th");
@@ -61,12 +67,11 @@
         });
         thead.appendChild(headerRow);
 
-        // Data
         res[0].values.forEach(row => {
           const tr = document.createElement("tr");
-          row.forEach(val => {
+          row.forEach(cell => {
             const td = document.createElement("td");
-            td.textContent = val;
+            td.textContent = cell;
             tr.appendChild(td);
           });
           tbody.appendChild(tr);
@@ -75,8 +80,8 @@
         table.appendChild(thead);
         table.appendChild(tbody);
         output.appendChild(table);
-      } catch (err) {
-        output.innerHTML = `<div class="error">${err.message}</div>`;
+      } catch (e) {
+        output.innerHTML = `<div class='error'>${e.message}</div>`;
       }
     }
   </script>
