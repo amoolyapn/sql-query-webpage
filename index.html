@@ -1,10 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>SQL Query Practice</title>
-  <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #d9f3ff; /* Light blue */
+      color: #333;
+      padding: 20px;
+      background-image: 
+        url("C:\Users\amool\Downloads\sql.png"),  /* SQL icon */
+        url("C:\Users\amool\Downloads\brain.jpeg");  /* Brain with light */
+      background-repeat: no-repeat, no-repeat;
+      background-position: top right, bottom left;
+      background-size: 120px, 150px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #999;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077b6;
+    }
+
+    p {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 16px;
+      background: #f0faff;
+      color: #333;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-weight: bold;
+      background: #0077b6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0096c7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .error {
+      margin-top: 10px;
+      color: #d00000;
+      font-weight: bold;
+    }
+
+    .info {
+      margin-top: 10px;
+      color: #2a9d8f;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
