@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>SQL Practice Web Page</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>SQL Query Practice</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>🧠 SQL Query Practice</h1>
-    <p class="tagline">Practice SQL queries on sample data — all in your browser.</p>
+    <p>Type a SELECT query and run it on sample employee data below.</p>
 
-    <textarea id="query" placeholder="Enter your SELECT query here..."></textarea>
+    <textarea id="query" placeholder="Example: SELECT * FROM employees;"></textarea>
     <button onclick="runQuery()">Run Query</button>
+
     <div id="output"></div>
 
     <footer>
-      <p>&copy; 2025 SQLPractice | Designed with ❤️</p>
+      &copy; 2025 Amoolya. All rights reserved.
     </footer>
   </div>
 
@@ -49,9 +50,9 @@
           throw new Error("Only SELECT queries are allowed.");
         }
 
-        const res = db.exec(query);
-        if (res.length === 0) {
-          output.innerHTML = "<div class='info'>Query executed successfully (no data returned).</div>";
+        const result = db.exec(query);
+        if (result.length === 0) {
+          output.innerHTML = "<div class='info'>Query ran successfully but returned no data.</div>";
           return;
         }
 
@@ -60,18 +61,18 @@
         const tbody = document.createElement("tbody");
 
         const headerRow = document.createElement("tr");
-        res[0].columns.forEach(col => {
+        result[0].columns.forEach(col => {
           const th = document.createElement("th");
           th.textContent = col;
           headerRow.appendChild(th);
         });
         thead.appendChild(headerRow);
 
-        res[0].values.forEach(row => {
+        result[0].values.forEach(row => {
           const tr = document.createElement("tr");
-          row.forEach(cell => {
+          row.forEach(val => {
             const td = document.createElement("td");
-            td.textContent = cell;
+            td.textContent = val;
             tr.appendChild(td);
           });
           tbody.appendChild(tr);
@@ -80,8 +81,8 @@
         table.appendChild(thead);
         table.appendChild(tbody);
         output.appendChild(table);
-      } catch (e) {
-        output.innerHTML = `<div class='error'>${e.message}</div>`;
+      } catch (err) {
+        output.innerHTML = `<div class="error">${err.message}</div>`;
       }
     }
   </script>
