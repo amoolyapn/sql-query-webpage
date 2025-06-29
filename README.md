@@ -9,9 +9,6 @@ A simple and interactive web-based SQL query editor built with HTML, CSS, and SQ
 - Reset database to default state
 - No backend or setup required
 
-## 🌐 Live Demo
-Try it online 👉 : https://amoolyapn.github.io/sql-query-webpage/
-
 ## 📁 How to Use
 - Type SQL queries into the textarea.
 - Click "Run Query" to execute.
