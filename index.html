@@ -2,121 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SQL Query Practice</title>
+  <title>SQL Query Playground</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #d9f3ff; /* Light blue */
-      color: #333;
-      padding: 20px;
-      background-image: 
-        url("C:\Users\amool\Downloads\sql.png"),  /* SQL icon */
-        url("C:\Users\amool\Downloads\brain.jpeg");  /* Brain with light */
-      background-repeat: no-repeat, no-repeat;
-      background-position: top right, bottom left;
-      background-size: 120px, 150px;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #999;
-    }
-
-    h1 {
-      text-align: center;
-      color: #0077b6;
-    }
-
-    p {
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    textarea {
-      width: 100%;
-      height: 100px;
-      font-size: 16px;
-      background: #f0faff;
-      color: #333;
-      border: 1px solid #bbb;
-      border-radius: 5px;
-      padding: 10px;
-    }
-
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-weight: bold;
-      background: #0077b6;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #0096c7;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    table th, table td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-
-    .error {
-      margin-top: 10px;
-      color: #d00000;
-      font-weight: bold;
-    }
-
-    .info {
-      margin-top: 10px;
-      color: #2a9d8f;
-      font-weight: bold;
-    }
-
-    footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 SQL Query Practice</h1>
-    <p>Type a SELECT query and run it on sample employee data below.</p>
+  <!-- Decorative Floating Images -->
+  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968342.png" 
+       alt="SQL Icon" 
+       class="floating-icon sql-icon" />
 
-    <textarea id="query" placeholder="Example: SELECT * FROM employees;"></textarea>
-    <button onclick="runQuery()">Run Query</button>
+  <img src="https://cdn-icons-png.flaticon.com/512/4529/4529955.png" 
+       alt="Brain Icon" 
+       class="floating-icon brain-icon" />
+
+  <div class="container">
+    <h1>🧠 SQL Query Practice Playground</h1>
+    <p>Write and run any SQL queries — CREATE, INSERT, SELECT, UPDATE, DELETE, etc.</p>
+
+    <textarea id="query" placeholder="Example: CREATE TABLE students (id INT, name TEXT);"></textarea>
+    <div class="buttons">
+      <button onclick="runQuery()">Run Query</button>
+      <button onclick="resetDB()">Reset Sample DB</button>
+    </div>
 
     <div id="output"></div>
-
-    <footer>
-      &copy; 2025 Amoolya. All rights reserved.
-    </footer>
   </div>
+
+  <footer>
+    &copy; 2025 Amoolya. All rights reserved.
+  </footer>
 
   <script>
     let db;
 
-    const initSql = `
+    const sampleSQL = `
       CREATE TABLE employees (id INTEGER, name TEXT, department TEXT, salary INTEGER);
       INSERT INTO employees VALUES (1, 'Alice', 'HR', 50000);
       INSERT INTO employees VALUES (2, 'Bob', 'Engineering', 75000);
@@ -125,12 +45,15 @@
       INSERT INTO employees VALUES (5, 'Eva', 'Marketing', 55000);
     `;
 
-    initSqlJs({
-      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file}`
-    }).then(SQL => {
+    function initDatabase() {
       db = new SQL.Database();
-      db.run(initSql);
-    });
+      db.run(sampleSQL);
+    }
+
+    function resetDB() {
+      initDatabase();
+      document.getElementById("output").innerHTML = "<div class='info'>Database reset to default sample.</div>";
+    }
 
     function runQuery() {
       const query = document.getElementById("query").value.trim();
@@ -138,13 +61,10 @@
       output.innerHTML = "";
 
       try {
-        if (!query.toLowerCase().startsWith("select")) {
-          throw new Error("Only SELECT queries are allowed.");
-        }
-
         const result = db.exec(query);
+
         if (result.length === 0) {
-          output.innerHTML = "<div class='info'>Query ran successfully but returned no data.</div>";
+          output.innerHTML = "<div class='info'>Query executed successfully (no data returned).</div>";
           return;
         }
 
@@ -177,6 +97,13 @@
         output.innerHTML = `<div class="error">${err.message}</div>`;
       }
     }
+
+    initSqlJs({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file}`
+    }).then(SQL => {
+      window.SQL = SQL;
+      initDatabase();
+    });
   </script>
 </body>
 </html>
