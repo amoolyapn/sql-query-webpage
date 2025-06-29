@@ -10,7 +10,7 @@ A simple and interactive web-based SQL query editor built with HTML, CSS, and SQ
 - No backend or setup required
 
 ## 🌐 Live Demo
-Try it online 👉 : https://github.com/amoolyapn/sql-query-webpage
+Try it online 👉 : https://amoolyapn.github.io/sql-query-webpage/
 
 ## 📁 How to Use
 - Type SQL queries into the textarea.
